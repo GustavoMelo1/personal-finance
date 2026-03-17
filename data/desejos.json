@@ -4,8 +4,22 @@
             "id": 1,
             "termo_busca": "Xbox Series S",
             "palavras_ignorar": ["Usado", "Xbox Series X", "Slim"],
-            "lojas": ["Amazon", "Magazine Luiza", "Casas Bahia", "BeB Games", "Microsoft Store"],
+            "lojas": ["Amazon", "Magazine Luiza", "Casas Bahia", "BeB Games", "Microsoft Store", "Kalunga", "Submarino", "Kabum"],
             "preco_maximo": 3000.00
+        },
+        {
+            "id": 2,
+            "termo_busca": "TV",
+            "palavras_ignorar": ["Usado","Suporte", "Controle", "Cabo", "Antena"],
+            "lojas": ["Amazon", "Magazine Luiza", "Casas Bahia"],
+            "preco_maximo": 3500.00 
+        },
+        {
+            "id": 3,
+            "termo_busca": "Notebook",
+            "palavras_ignorar": ["Usado"],
+            "lojas": ["Amazon", "Magazine Luiza", "Casas Bahia", "iPlace"],
+            "preco_maximo": 3500.00
         }
     ]
 }
