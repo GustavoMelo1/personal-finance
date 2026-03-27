@@ -1,7 +1,11 @@
-﻿.venv/
+﻿#environment and virtual machines
+.venv/
 venv/
 env/
 __pycache__/
+*.py[cod]
+
+#sensitive data and database
 .env
 *.db
 *.sqlite3
@@ -9,4 +13,7 @@ data/
 *.xlsx
 *.csv
 *.json
+
+#editor settings
 .vscode/
+.idea/
