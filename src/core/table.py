@@ -27,11 +27,11 @@ def create_db():
         
         #investments table
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS investment (
+            CREATE TABLE IF NOT EXISTS  investment(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date TEXT NOT NULL,
                 institution TEXT,
-                investiment TEXT,
+                investment TEXT,
                 movement TEXT,
                 value REAL NOT NULL,
                 asset_name TEXT
