@@ -13,7 +13,7 @@ def insert_flow(date, description, category, type, value, bank):
             VALUES (?, ?, ?, ?, ?, ?)
         ''', (date, description, category, type, value, bank))
         conn.commit()
-    logger.info(f"Gasto inserido: {description} - R${value}")    
+    logger.info(f"Expenditure entered: {description} - R${value}")    
 
 def balance_flow():
     with sqlite3.connect(PATH_db) as conn:
@@ -33,7 +33,7 @@ def delete_flow(id):
         cursor = conn.cursor()
         cursor.execute("DELETE FROM flow WHERE id = ?", (id,))
         conn.commit()
-    logger.info(f"Item deletado: id {id}")
+    logger.info(f"Item deleted: id {id}")
 
 def insert_investment(date, institution, investment, movement, value, asset_name):
     with sqlite3.connect(PATH_db) as conn:
@@ -43,21 +43,22 @@ def insert_investment(date, institution, investment, movement, value, asset_name
             VALUES (?, ?, ?, ?, ?, ?)
         ''', (date, institution, investment, movement, value, asset_name))
         conn.commit()
-    logger.info(f"Investimentos sugeridos: {investment} - R${value}")
+    logger.info(f"Suggested investments: {investment} - R${value}")
 
 def delete_investment(id):
     with sqlite3.connect(PATH_db) as conn:
         cursor = conn.cursor()
         cursor.execute("DELETE FROM investment WHERE id = ?", (id,))
         conn.commit()
-    logger.info(f"Item deletado: id {id}")
+    logger.info(f"Item deleted: id {id}")
 
 def select_investment():
     with sqlite3.connect(PATH_db) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM investment  ")
-        return cursor.fetchall()
-
+        cursor.execute("SELECT * FROM investment")
+        rows = cursor.fetchall()
+    logger.info("Selected investments : ")
+    return rows
 
 
 
