@@ -4,6 +4,7 @@ venv/
 env/
 __pycache__/
 *.py[cod]
+fluxo/
 
 #sensitive data and database
 .env
