@@ -41,7 +41,7 @@ with column_form:
     st.subheader("Adicionar")
     date = st.date_input("Data")
     description = st.text_input("Descrição")
-    category = st.text_input("Categoria")
+    category = st.selectbox("Categoria", ["Alimentacao", "TI", "Cartao", "Conta", "Luxo", "Saude", "Transporte", "Outros"])
     type = st.selectbox("Tipo", ["Income", "Expense"])
     value = st.number_input("Valor", min_value=0.0)
     bank = st.selectbox("Conta", ["Santander", "Nubank", "Rico", "VA"])
