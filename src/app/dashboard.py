@@ -8,9 +8,9 @@ import json
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from database.crud import balance_flow, select_investment, insert_flow, insert_investment 
-from core.table import create_db
-from core.searcher import wishes
+from database.crud import balance_flow, select_investment, insert_flow, insert_investment, insert_wish, select_wish, delete_wish
+from database.table import create_db
+from ingestion.searcher import wishes
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 

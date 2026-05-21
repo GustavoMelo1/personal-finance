@@ -1,4 +1,5 @@
-import os 
+import os
 
-PATHS_WISHES = os.path.join("data", "desejos.json")
-PATHS_NEWS = os.path.join("data", "financialmarketnews.json")
+PATH_DB = os.path.join("data", "financas.db")
+PATH_RAW = os.path.join("data", "raw")
+PATH_NEWS = os.path.join("data", "financialmarketnews.json")
