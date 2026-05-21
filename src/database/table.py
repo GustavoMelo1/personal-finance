@@ -1,14 +1,18 @@
 import sqlite3
 import os
+import sys
 import logging
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from config import PATH_DB
 
 logger = logging.getLogger(__name__)
 
-PATH_db = 'data/financas.db'
-os.makedirs('data', exist_ok=True)
+os.makedirs(os.path.dirname(PATH_DB), exist_ok=True)
 
 def create_db():
-    with sqlite3.connect(PATH_db) as conn:
+    with sqlite3.connect(PATH_DB) as conn:
         cursor = conn.cursor()
 
         cursor.execute('''
