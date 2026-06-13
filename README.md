@@ -1,46 +1,39 @@
-# FLUXO DE CAIXA PESSOAL 
+# Personal Finance
 
+Automated personal cash flow system. The goal is to connect a material/personal goal with your current cash flow — finding the best prices, across the best stores, to bring more comfort and organization to your budget.
 
-Sistema automatizado do meu fluxo de caixa, objetivo é vincular seu sonho material/pessoal com o seu fluxo de caixa atual, encontrando o melhor preço, nas melhores lojas e afins. 
-Trazendo melhor conforto e organização pro seu bolso...
+## Project structure
 
 ```text
-fluxodecaixa_project/
-│
-├── .env                    # Variáveis de ambiente e segredos
-├── .gitignore             # Arquivos temporários, venv, etc.
-├── requirements.txt       # Dependências Python
-├── README.md              # Documentação e roadmap
+personal-finance/
+├── .env                      # Environment variables and secrets (gitignored)
+├── .gitignore                # Temp files, venv, etc.
+├── requirements.txt          # Python dependencies
+├── README.md                 # Documentation and roadmap
 │
 ├── data/
-│   ├── raw/               # Extratos brutos (OFX, CSV, PDF etc.)
-│   └── financas.db        # Banco de dados principal (SQLite)
+│   ├── raw/                  # Raw bank statements (OFX, CSV, PDF, etc.)
+│   └── financas.db           # Main database (SQLite)
 │
 └── src/
-    │
-    ├── ingestion/
-    │   ├── __init__.py
-    │   ├── readers/
-    │   │   ├── __init__.py
-    │   │   ├── base.py         # Leitor genérico / abstrato
-    │   │   ├── ofx_reader.py   # Leitura de extrato OFX
-    │   │   ├── csv_reader.py   # Leitura de CSV
-    │   │   └── pdf_reader.py   # Leitura de PDF (se entrar depois)
-    │   ├── ingest.py          # Coordena a ingestão (ex: processa raw → banco)
-    │   └── cotacoes.py        # Pegar cotações de mercado (yFinance, B3 etc.)
-    │
-    ├── database/
-    │   ├── __init__.py
-    │   ├── connection.py      # Conexão com SQLite
-    │   ├── table.py           # Definição das tabelas (flow, investment, wishes)
-    │   └── crud.py            # Insert, select, update de dados
-    │
-    ├── transform/
-    │   └── .gitkeep           # Futura pasta para transformações (dbt, etl, etc.)
-    │
-    ├── api/
-    │   ├── __init__.py
-    │   └── main.py            # API FastAPI raiz (vai expor endpoints)
-    │
-    └── app/                   # (Futuro) Frontend / app que consome a API
-        └── .gitkeep           # Frontend ainda não implementado
+├── ingestion/
+│   ├── readers/
+│   │   ├── base.py        # Generic / abstract reader
+│   │   ├── ofx_reader.py  # OFX statement reader
+│   │   ├── csv_reader.py  # CSV reader
+│   │   └── pdf_reader.py  # PDF reader (if added later)
+│   ├── ingest.py          # Coordinates ingestion (raw → database)
+│   └── cotacoes.py        # Fetches market quotes (yFinance, B3, etc.)
+│
+├── database/
+│   ├── connection.py      # SQLite connection
+│   ├── table.py           # Table definitions (flow, investment, wishes)
+│   └── crud.py            # Insert, select, update operations
+│
+├── transform/             # Future folder for transformations (dbt, ETL, etc.)
+│
+├── api/
+│   └── main.py            # FastAPI root (will expose endpoints)
+│
+└── app/                   # (Future) Frontend / app consuming the API
+```
