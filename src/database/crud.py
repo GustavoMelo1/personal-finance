@@ -39,6 +39,14 @@ def delete_flow(id):
         conn.commit()
     logger.info(f"Item deleted: id {id}")
 
+def select_flow():
+    with sqlite3.connect(PATH_DB) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM flow")
+        rows = cursor.fetchall()
+    logger.info("Selected flow : ")
+    return rows
+
 def insert_investment(date, institution, investment, movement, value, asset_name):
     with sqlite3.connect(PATH_DB) as conn:
         cursor = conn.cursor()
@@ -88,6 +96,7 @@ def select_wish():
         rows = cursor.fetchall()
     logger.info("Selected wishes")
     return rows
+
 
 
 
