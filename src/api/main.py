@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.database.crud import select_flow
+from src.database.crud import select_flow, select_investment, select_wishes
 
 app = FastAPI()
 
@@ -7,6 +7,14 @@ app = FastAPI()
 def root():
     return {"message": "API funcionando"}
 
-@app.get("/gastos")
+@app.get("/expenses")
 def flow():
-    return {"my_flow": select_flow()}
+    return {"flow": select_flow()}
+
+@app.get("/investments")
+def investments():
+    return {"investments": select_investment()}
+
+@app.get("/wishes")
+def wishes():
+    return {"wishes": select_wishes()}
