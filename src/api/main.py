@@ -9,12 +9,23 @@ class Flow(BaseModel):
     description:str
     category:str
     type:str
-    bank:str
     value:float
+    bank:str
 
-@app.get("/")
-def root():
-    return {"message": "API funcionando"}
+class Investments(BaseModel):
+    date: str
+    institution: str
+    investment: str
+    movement: str
+    value: float
+    asset_name: str
+
+class Wishes(BaseModel):
+    name: str
+    search: str
+    ignore: str
+    stores: str
+    max_value: float
 
 @app.get("/expenses")
 def flow():
@@ -28,7 +39,15 @@ def create_flow(expense: Flow):
 def investments():
     return {"investments": select_investment()}
 
+@app.post("/investments")
+def create_investiments(expense: Investments):
+    insert_investment(expense.date, expense.institution, expense.investment, expense.movement, expense.value, expense.asset_name)
+
 @app.get("/wishes")
 def wishes():
     return {"wishes": select_wishes()}
+
+@app.post("/wishes")
+def create_wishes(expense: Wishes):
+    insert_wishes(expense.name, expense.search, expense.ignore, expense.stores, expense.max_value)
 
