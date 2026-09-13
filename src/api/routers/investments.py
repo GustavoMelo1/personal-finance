@@ -1,16 +1,8 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from src.api.schemas.investments import Investments
 from src.database.crud import select_investment, insert_investment, delete_investment
 
 router = APIRouter()
-
-class Investments(BaseModel):
-    date: str
-    institution: str
-    investment: str
-    movement: str
-    value: float
-    asset_name: str
 
 @router.get("/investments")
 def investments():

@@ -1,16 +1,8 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from src.api.schemas.expenses import Flow
 from src.database.crud import select_flow, insert_flow, delete_flow, balance_flow
 
 router = APIRouter()
-
-class Flow(BaseModel):
-    date: str
-    description:str
-    category:str
-    type:str
-    value:float
-    bank:str
 
 @router.get("/expenses")
 def flow():

@@ -1,15 +1,8 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from src.api.schemas.wishes import Wishes
 from src.database.crud import select_wishes, insert_wishes, delete_wishes
 
 router = APIRouter()
-
-class Wishes(BaseModel):
-    name: str
-    search: str
-    ignore: str
-    stores: str
-    max_value: float
 
 @router.get("/wishes")
 def wishes():
