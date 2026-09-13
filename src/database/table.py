@@ -1,19 +1,13 @@
-import sqlite3
-import os
-import sys
 import logging
+from pathlib import Path
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from config import PATH_DB
+from src.database.connection import connect
 
 logger = logging.getLogger(__name__)
 
-os.makedirs(os.path.dirname(PATH_DB), exist_ok=True)
-
-def create_db():
+def create_db(database_path: str | Path | None = None):
     """Cria as tabelas flow, investment e wishes no banco se ainda não existirem."""
-    with sqlite3.connect(PATH_DB) as conn:
+    with connect(database_path) as conn:
         cursor = conn.cursor()
 
         cursor.execute('''
@@ -51,7 +45,6 @@ def create_db():
             )
         ''')
 
-        conn.commit()
     logger.info("db created successfully")
 
 if __name__ == "__main__":

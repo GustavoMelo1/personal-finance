@@ -1,6 +1,9 @@
 """Centraliza os caminhos de arquivos usados no projeto."""
-import os
+from pathlib import Path
 
-PATH_DB = os.path.join("data", "financas.db")
-PATH_RAW = os.path.join("data", "wishes.json")
-PATH_NEWS = os.path.join("data", "financialmarketnews.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
+
+PATH_DB = DATA_DIR / "financas.db"
+PATH_RAW = DATA_DIR / "wishes.json"
+PATH_NEWS = DATA_DIR / "financialmarketnews.json"
