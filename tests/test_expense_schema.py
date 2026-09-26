@@ -22,6 +22,25 @@ class FlowValidationTests(unittest.TestCase):
                 flow = Flow(**self.payload(movement_type))
                 self.assertEqual(flow.model_dump()['type'], movement_type)
 
+    def test_accepts_positive_values(self):
+        for movement_type in ('Income', 'Expense'):
+            for value in (0.01, 35.50, 1000):
+                with self.subTest(movement_type=movement_type, value=value):
+                    payload = self.payload(movement_type)
+                    payload['value'] = value
+                    self.assertEqual(Flow(**payload).value, value)
+
+    def test_rejects_zero_and_negative_values(self):
+        for movement_type in ('Income', 'Expense'):
+            for value in (0, -0.01, -50):
+                with self.subTest(movement_type=movement_type, value=value):
+                    payload = self.payload(movement_type)
+                    payload['value'] = value
+                    with self.assertRaises(ValidationError) as error:
+                        Flow(**payload)
+                    self.assertEqual(error.exception.errors()[0]['loc'], ('value',))
+                    self.assertEqual(error.exception.errors()[0]['type'], 'greater_than')
+
     def test_rejects_unsupported_movement_types(self):
         for movement_type in ('banana', 'income', 'expense', '', None, 1):
             with self.subTest(movement_type=movement_type):

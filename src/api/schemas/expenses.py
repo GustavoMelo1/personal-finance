@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Flow(BaseModel):
@@ -8,5 +8,5 @@ class Flow(BaseModel):
     description: str
     category: str
     type: Literal["Income", "Expense"]
-    value: float
+    value: float = Field(gt=0)
     bank: str
