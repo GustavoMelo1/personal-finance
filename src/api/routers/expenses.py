@@ -7,7 +7,7 @@ router = APIRouter()
 @router.get("/expenses")
 def flow():
     """Retorna todos os gastos cadastrados"""
-    return {"flow": select_flow()}
+    return {"flow": [(*row[:5], format(row[5], '.2f'), row[6]) for row in select_flow()]}
 
 @router.post("/expenses")
 def create_flow(expense: Flow):
@@ -17,7 +17,7 @@ def create_flow(expense: Flow):
 @router.get("/expenses/balance")
 def balance():
     """Calcula e retorna o saldo atual (ganhos menos gastos)."""
-    return {"balance": balance_flow()}
+    return {"balance": format(balance_flow(), '.2f')}
 
 @router.delete("/expenses/{id}")
 def remove_flow(id: int):

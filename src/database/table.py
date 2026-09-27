@@ -10,6 +10,12 @@ def create_db(database_path: str | Path | None = None):
     with connect(database_path) as conn:
         cursor = conn.cursor()
 
+        columns = {row[1] for row in cursor.execute('PRAGMA table_info(flow)')}
+        if columns and 'value_cents' not in columns:
+            raise RuntimeError(
+                'Legacy flow schema: run python -m src.database.migrate_money first'
+            )
+
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS flow (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +23,8 @@ def create_db(database_path: str | Path | None = None):
                 description TEXT,
                 category TEXT,
                 type TEXT NOT NULL,
-                value REAL NOT NULL,
+                value_cents INTEGER NOT NULL
+                    CHECK(typeof(value_cents) = 'integer' AND value_cents > 0),
                 bank TEXT
             )
         ''')

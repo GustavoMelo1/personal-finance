@@ -33,7 +33,7 @@ class FoundationTests(unittest.TestCase):
                     type='Income', value=1000, bank='Test',
                 ))
             async with app.router.lifespan_context(app):
-                self.assertEqual(expenses.balance(), {'balance': 1000})
+                self.assertEqual(expenses.balance(), {'balance': '1000.00'})
                 self.assertEqual(len(expenses.flow()['flow']), 1)
         asyncio.run(start())
 
@@ -45,10 +45,10 @@ class FoundationTests(unittest.TestCase):
                 type=kind, value=amount, bank='Test',
             )))
         rows = expenses.flow()['flow']
-        self.assertEqual(rows[0][1:], ('2026-09-12', 'Income', 'Test', 'Income', 1000, 'Test'))
-        self.assertEqual(expenses.balance(), {'balance': 800})
+        self.assertEqual(rows[0][1:], ('2026-09-12', 'Income', 'Test', 'Income', '1000.00', 'Test'))
+        self.assertEqual(expenses.balance(), {'balance': '800.00'})
         self.assertIsNone(expenses.remove_flow(rows[1][0]))
-        self.assertEqual(expenses.balance(), {'balance': 1000})
+        self.assertEqual(expenses.balance(), {'balance': '1000.00'})
 
         self.assertIsNone(investments.create_investments(Investments(
             date='2026-09-12', institution='Test', investment='Test',

@@ -1,17 +1,19 @@
 import logging
 
 from src.database.connection import connect
+from src.money import from_cents, to_cents
 
 logger = logging.getLogger(__name__)
 
 def insert_flow(date, description, category, type, value, bank):
     """Insere um registro de gasto novo no banco."""
+    cents = to_cents(value)
     with connect() as conn:
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO flow (date, description, category, type, value, bank)
+            INSERT INTO flow (date, description, category, type, value_cents, bank)
             VALUES (?, ?, ?, ?, ?, ?)
-        ''', (date, description, category, type, value, bank))
+        ''', (date, description, category, type, cents, bank))
     logger.info(f"Expenditure entered: {description} - R${value}")    
 
 def balance_flow():
@@ -19,14 +21,10 @@ def balance_flow():
     with connect() as conn:
         cursor = conn.cursor()
         
-        cursor.execute("SELECT SUM(value) FROM flow WHERE type = ?", ('Income',))
-        income = cursor.fetchone()[0] or 0
-        
-        cursor.execute("SELECT SUM(value) FROM flow WHERE type = ?", ('Expense',))
-        expense = cursor.fetchone()[0] or 0
-        
-        balance = income - expense   
-    return balance
+        cursor.execute("SELECT type, value_cents FROM flow WHERE type IN ('Income', 'Expense')")
+        # Python integers avoid SQLite SUM overflow across many valid rows.
+        balance = sum(cents if kind == 'Income' else -cents for kind, cents in cursor)
+    return from_cents(balance)
 
 def delete_flow(id):
     """Apaga registros de gastos pelo ID no banco."""
@@ -39,8 +37,8 @@ def select_flow():
     """Busca e retorna todos os gastos cadastrados no banco."""
     with connect() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM flow")
-        rows = cursor.fetchall()
+        cursor.execute('SELECT id, date, description, category, type, value_cents, bank FROM flow')
+        rows = [(*row[:5], from_cents(row[5]), row[6]) for row in cursor.fetchall()]
     logger.info("Selected flow : ")
     return rows
 

@@ -1,4 +1,5 @@
 import unittest
+from decimal import Decimal
 
 from pydantic import ValidationError
 
@@ -28,7 +29,15 @@ class FlowValidationTests(unittest.TestCase):
                 with self.subTest(movement_type=movement_type, value=value):
                     payload = self.payload(movement_type)
                     payload['value'] = value
-                    self.assertEqual(Flow(**payload).value, value)
+                    self.assertEqual(Flow(**payload).value, Decimal(str(value)))
+
+    def test_rejects_invalid_precision_and_non_finite_values(self):
+        for value in ('0.001', '12.345', 'NaN', 'Infinity', '-Infinity', '92233720368547758.08'):
+            with self.subTest(value=value):
+                payload = self.payload('Expense')
+                payload['value'] = value
+                with self.assertRaises(ValidationError):
+                    Flow(**payload)
 
     def test_rejects_zero_and_negative_values(self):
         for movement_type in ('Income', 'Expense'):
