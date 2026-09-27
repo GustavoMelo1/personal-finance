@@ -18,6 +18,18 @@ dependencies with `.\fluxo\Scripts\python.exe -m pip install -r requirements.txt
 The API creates missing tables on startup. Local docs: http://127.0.0.1:8000/docs.
 Tests use temporary databases.
 
+Existing databases using `flow.value REAL` must be migrated before starting
+the updated API (stop the API first):
+
+```powershell
+.\fluxo\Scripts\python.exe -m src.database.migrate_money
+```
+
+The migration creates a backup and preserves transaction IDs. New databases
+already use integer cents. Expense values and balance responses now use
+decimal strings (for example, `"35.50"`). See the architecture document for
+validation rules, migration failures and recovery instructions.
+
 Automated personal cash flow system. The goal is to connect a material/personal goal with your current cash flow — finding the best prices, across the best stores, to bring more comfort and organization to your budget.
 
 ## Project structure
