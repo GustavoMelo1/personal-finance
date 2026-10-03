@@ -8,21 +8,21 @@ acrescentar um fluxo funcional por vez.
 
 | Local | Responsabilidade |
 | --- | --- |
-| `src/config.py` | Caminhos absolutos, derivados da raiz do projeto |
-| `src/api/main.py` | Compor a API e inicializar tabelas no startup |
-| `src/api/routers/` | Receber pedidos HTTP e devolver respostas |
-| `src/api/schemas/` | Definir os contratos Pydantic de entrada |
-| `src/database/crud.py` | Consultas SQL e persistencia das tres entidades |
-| `src/database/connection.py` | Abrir conexao, confirmar ou reverter transacao e fechar |
-| `src/database/table.py` | Criar as tabelas que ainda nao existem |
-| `src/database/migrate_money.py` | Migrar valores antigos com backup e transacao |
-| `src/money.py` | Converter reais decimais para centavos inteiros e vice-versa |
-| `src/ingestion/readers/` | Ler arquivos; ainda sem importar para o banco |
-| `src/ingestion/searcher.py` | Placeholder da futura pesquisa de precos |
-| `tests/` | Verificar a base usando bancos temporarios |
+| `backend/app/core/config.py` | Caminhos absolutos, derivados da raiz do projeto |
+| `backend/app/main.py` | Compor a API e inicializar tabelas no startup |
+| `backend/app/api/routers/` | Receber pedidos HTTP e devolver respostas |
+| `backend/app/api/schemas/` | Definir os contratos Pydantic de entrada |
+| `backend/app/database/crud.py` | Consultas SQL e persistencia das tres entidades |
+| `backend/app/database/connection.py` | Abrir conexao, confirmar ou reverter transacao e fechar |
+| `backend/app/database/table.py` | Criar as tabelas que ainda nao existem |
+| `backend/app/database/migrations/migrate_money.py` | Migrar valores antigos com backup e transacao |
+| `backend/app/domain/money.py` | Converter reais decimais para centavos inteiros e vice-versa |
+| `backend/app/ingestion/readers/` | Ler arquivos; ainda sem importar para o banco |
+| `backend/app/ingestion/searcher.py` | Placeholder da futura pesquisa de precos |
+| `backend/tests/` | Verificar a base usando bancos temporarios |
 
 Hoje as rotas chamam o CRUD diretamente. Quando surgir um fluxo com regras
-proprias (como importacao), ele ganha um modulo em `src/services/`:
+proprias (como importacao), ele ganha um modulo em `backend/app/services/`:
 
 ```text
 rota HTTP -> servico de importacao -> leitor + normalizacao + persistencia
@@ -62,7 +62,9 @@ A API nao converte dados antigos automaticamente. Se flow ainda tiver
 `value REAL`, o startup solicita executar, na raiz do projeto:
 
 ```powershell
-.\fluxo\Scripts\python.exe -m src.database.migrate_money
+cd backend
+..\fluxo\Scripts\python.exe -m app.database.migrations.migrate_money
+cd ..
 ```
 
 Execute com a API parada. O comando valida todos os valores, cria uma copia
@@ -85,7 +87,7 @@ e ficam dentro de `data/`, que ja e ignorado pelo Git.
 A inicializacao usa CREATE TABLE IF NOT EXISTS: nao apaga registros e nao
 atualiza esquemas antigos. Alteracoes futuras de coluna exigem migracao.
 Importar os modulos nao cria o banco; o startup da API ou o comando explicito
-`python -m src.database.table` cria as tabelas.
+`python -m app.database.table` (executado dentro de `backend/`) cria as tabelas.
 
 O SQLite atende a esta etapa local. A necessidade de Postgres, filas ou
 infraestrutura na nuvem sera avaliada a partir do uso. A API atual nao tem
@@ -112,7 +114,7 @@ ou reembolso. A classificacao precisa considerar esse contexto.
 Na raiz, com as dependencias instaladas:
 
 ```powershell
-python -m unittest discover -s tests -v
+.\fluxo\Scripts\python.exe -m unittest discover -s backend/tests -t backend -v
 ```
 
 Os testes verificam startup, preservacao de registros, operacoes atuais,
@@ -120,3 +122,22 @@ saldo exato, commit/rollback, fechamento de conexoes, caminhos, estrutura
 OpenAPI e migracao com backup. Tambem exercitam requisicoes ASGI para validar
 respostas HTTP 422 e serializacao decimal; nao iniciam um servidor de rede.
 Usam somente bancos temporarios, sem acessar `data/financas.db`.
+
+## Separacao backend/frontend
+
+O backend e um pacote Python chamado `app`, dentro de `backend/`. Imports
+internos usam `app.*`, sem prefixo `backend` e sem manipulacao de `sys.path`.
+Da raiz, o Uvicorn usa `--app-dir backend`; o unittest usa `-t backend`.
+Dentro de `backend/`, o pacote ja esta no caminho de importacao.
+
+O ponto de entrada e `app.main:app`. Configuracoes ficam em `core/`, regras
+monetarias puras em `domain/` e migracoes explicitas em `database/migrations/`.
+Leitores e o placeholder de pesquisa mantem seu comportamento atual.
+
+`data/` e `fluxo/` continuam na raiz. A raiz de dados e calculada a partir de
+`backend/app/core/config.py`, nao da pasta em que o comando foi executado.
+Esta reorganizacao nao executa a migracao monetaria do banco pessoal.
+
+`frontend/` reserva o espaco da interface; ainda nao ha framework escolhido
+nem aplicacao frontend executavel. A interface consumira a API HTTP e nao
+acessara o SQLite diretamente. Veja [roadmap](roadmap.md) para as etapas.
