@@ -13,7 +13,10 @@ fluxo/
 data/
 *.xlsx
 *.csv
-*.json
+
+#frontend dependencies and generated bundles
+node_modules/
+dist/
 
 #personal notes
 notes.md
