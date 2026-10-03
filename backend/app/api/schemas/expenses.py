@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from src.money import MAX_AMOUNT
+from app.domain.money import MAX_AMOUNT
 
 
 class Flow(BaseModel):

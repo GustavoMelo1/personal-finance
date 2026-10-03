@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.api.schemas.wishes import Wishes
-from src.database.crud import select_wishes, insert_wishes, delete_wishes
+from app.api.schemas.wishes import Wishes
+from app.database.crud import select_wishes, insert_wishes, delete_wishes
 
 router = APIRouter()
 

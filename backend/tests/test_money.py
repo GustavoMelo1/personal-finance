@@ -7,12 +7,12 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from src import config
-from src.api.main import app
-from src.database.crud import balance_flow, insert_flow, select_flow
-from src.database.migrate_money import migrate
-from src.database.table import create_db
-from src.money import from_cents, to_cents, MAX_AMOUNT
+from app.core import config
+from app.main import app
+from app.database.crud import balance_flow, insert_flow, select_flow
+from app.database.migrations.migrate_money import migrate
+from app.database.table import create_db
+from app.domain.money import from_cents, to_cents, MAX_AMOUNT
 
 
 class MoneyTests(unittest.TestCase):

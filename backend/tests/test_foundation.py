@@ -6,14 +6,25 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from src import config
-from src.api.main import app
-from src.api.routers import expenses, investments, wishes
-from src.api.schemas.expenses import Flow
-from src.api.schemas.investments import Investments
-from src.api.schemas.wishes import Wishes
-from src.database.connection import connect
-from src.database.table import create_db
+from app.core import config
+from app.main import app
+from app.api.routers import expenses, investments
+from app.api.routers import wishes
+from app.api.schemas.expenses import Flow
+from app.api.schemas.investments import Investments
+from app.api.schemas.wishes import Wishes
+from app.database.connection import connect
+from app.database.table import create_db
+
+
+class ConfigurationTests(unittest.TestCase):
+    def test_data_directory_stays_at_repository_root(self):
+        repository_root = Path(__file__).resolve().parents[2]
+        self.assertEqual(config.PROJECT_ROOT, repository_root)
+        self.assertEqual(config.DATA_DIR, repository_root / 'data')
+        self.assertEqual(config.PATH_DB, repository_root / 'data' / 'financas.db')
+        self.assertEqual(config.PATH_RAW, repository_root / 'data' / 'wishes.json')
+        self.assertEqual(config.PATH_NEWS, repository_root / 'data' / 'financialmarketnews.json')
 
 
 class FoundationTests(unittest.TestCase):

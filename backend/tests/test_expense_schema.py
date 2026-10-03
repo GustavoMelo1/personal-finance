@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from pydantic import ValidationError
 
-from src.api.schemas.expenses import Flow
+from app.api.schemas.expenses import Flow
 
 
 class FlowValidationTests(unittest.TestCase):

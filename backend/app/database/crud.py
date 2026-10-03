@@ -1,7 +1,7 @@
 import logging
 
-from src.database.connection import connect
-from src.money import from_cents, to_cents
+from app.database.connection import connect
+from app.domain.money import from_cents, to_cents
 
 logger = logging.getLogger(__name__)
 

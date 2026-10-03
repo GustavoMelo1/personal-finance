@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.api.schemas.investments import Investments
-from src.database.crud import select_investment, insert_investment, delete_investment
+from app.api.schemas.investments import Investments
+from app.database.crud import select_investment, insert_investment, delete_investment
 
 router = APIRouter()
 

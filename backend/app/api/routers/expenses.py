@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.api.schemas.expenses import Flow
-from src.database.crud import select_flow, insert_flow, delete_flow, balance_flow
+from app.api.schemas.expenses import Flow
+from app.database.crud import select_flow, insert_flow, delete_flow, balance_flow
 
 router = APIRouter()
 

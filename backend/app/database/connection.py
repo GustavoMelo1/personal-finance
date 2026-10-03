@@ -5,7 +5,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
 
-from src import config
+from app.core import config
 
 
 @contextmanager

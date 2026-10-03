@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from src.database.connection import connect
+from app.database.connection import connect
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,7 @@ def create_db(database_path: str | Path | None = None):
         columns = {row[1] for row in cursor.execute('PRAGMA table_info(flow)')}
         if columns and 'value_cents' not in columns:
             raise RuntimeError(
-                'Legacy flow schema: run python -m src.database.migrate_money first'
+                'Legacy flow schema: run python -m app.database.migrations.migrate_money first'
             )
 
         cursor.execute('''

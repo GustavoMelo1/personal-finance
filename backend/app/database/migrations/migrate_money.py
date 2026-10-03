@@ -4,8 +4,8 @@ from pathlib import Path
 import sqlite3
 from uuid import uuid4
 
-from src import config
-from src.money import to_cents
+from app.core import config
+from app.domain.money import to_cents
 
 
 def migrate(database_path: str | Path | None = None) -> Path | None:
