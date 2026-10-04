@@ -17,6 +17,8 @@ data/
 #frontend dependencies and generated bundles
 node_modules/
 dist/
+test-results/
+playwright-report/
 
 #personal notes
 notes.md
