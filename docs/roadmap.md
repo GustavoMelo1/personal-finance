@@ -11,7 +11,7 @@ e commit. O assistente explica e orienta; implementa quando solicitado.
 | M3 | Contas, saldo inicial e transferencias | Transferencias nao inflarem receitas/despesas | Planejado |
 | M4 | Importacao com previa, confirmacao e deduplicacao | Reimportar um extrato sem duplicar registros | Leitores basicos existentes |
 | M5 | Categorias, orcamento e resumo mensal | Comparar gasto realizado com o planejado | Planejado |
-| M6 | Interface para rotina financeira | Usar o controle financeiro sem depender de /docs | Pasta reservada; tecnologia pendente |
+| M6 | Interface para rotina financeira | Usar o controle financeiro sem depender de /docs | Lastro em React/Tailwind: painel mensal, cadastros, filtros, exportacao e demonstracao; importacao e orcamento dependem do backend |
 | M7 | Carteira, aportes, resgates, posicao e evolucao | Conferir ativos suportados com o extrato da corretora | Cadastro basico existente |
 | M8 | Desejos, prioridades, prazos e valor reservado | Acompanhar objetivos e impacto no orcamento | Cadastro basico existente |
 | M9 | Pesquisa de precos, historico e alertas | Receber oportunidades com fonte, link, preco e horario | Placeholder existente |
@@ -22,7 +22,7 @@ pilares da V1. Testes e protecao de dados acompanham todos os modulos.
 Autenticacao deve ser implementada antes de disponibilizar acesso pela internet.
 
 Decisoes pendentes: bancos e formatos de extrato, cartoes/faturas, ativos de
-investimento suportados, tecnologia da interface e fontes de precos.
+investimento suportados e fontes de precos. Interface definida: React, Vite e Tailwind.
 IA e infraestrutura avancada ficam para depois da V1, conforme necessidade.
 
 Proximo passo de aprendizado: revisar a nova estrutura e os comandos (M1).

@@ -138,6 +138,10 @@ Leitores e o placeholder de pesquisa mantem seu comportamento atual.
 `backend/app/core/config.py`, nao da pasta em que o comando foi executado.
 Esta reorganizacao nao executa a migracao monetaria do banco pessoal.
 
-`frontend/` reserva o espaco da interface; ainda nao ha framework escolhido
-nem aplicacao frontend executavel. A interface consumira a API HTTP e nao
-acessara o SQLite diretamente. Veja [roadmap](roadmap.md) para as etapas.
+`frontend/` contem a interface Lastro em React, Vite e Tailwind. Ela consome
+`/api/*`, encaminhado pelo proxy do Vite para o FastAPI local na porta 8000.
+Nao acessa o SQLite diretamente. O modo de demonstracao usa dados ficticios
+em memoria, separado da API. Calculos de movimentacoes usam BigInt em centavos;
+as respostas posicionais do backend sao adaptadas em `frontend/src/lib/api.js`.
+Veja [frontend](../frontend/README.md) para comandos, limites e testes de navegador,
+e [roadmap](roadmap.md) para as etapas.

@@ -2,8 +2,9 @@
 
 Sistema pessoal para conectar controle financeiro, investimentos e objetivos
 de compra. O backend atual oferece cadastros, saldo e leitores de arquivos;
-importacao completa, interface e pesquisa automatica de precos ainda serao
-construidas. Veja o [roadmap M1-M10](docs/roadmap.md).
+importacao completa e pesquisa automatica de precos ainda serao construidas.
+A interface Lastro conecta os cadastros e a visao mensal ao backend.
+Veja o [roadmap M1-M10](docs/roadmap.md).
 
 ## Estrutura
 
@@ -20,7 +21,7 @@ personal-finance/
 |   |   `-- transform/          # Espaco reservado, sem implementacao
 |   |-- tests/
 |   `-- requirements.txt
-|-- frontend/                   # Interface planejada; ainda sem framework
+|-- frontend/                   # Lastro: React, Vite e Tailwind CSS
 |-- docs/
 |-- data/                       # Banco e arquivos locais, ignorados pelo Git
 `-- fluxo/                      # Ambiente virtual local, ignorado pelo Git
@@ -52,6 +53,20 @@ Na raiz:
 O primeiro comando fica executando; use outro terminal para os testes.
 Documentacao interativa: http://127.0.0.1:8000/docs.
 Os testes usam bancos temporarios e nao alteram `data/financas.db`.
+
+## Interface Lastro
+
+Com o backend rodando, em outro terminal a partir da raiz:
+
+```powershell
+cd frontend
+npm ci
+npm run dev
+```
+
+Abra http://127.0.0.1:5173. Sem o backend, voce pode explorar o modo de
+demonstracao, identificado na tela e separado dos seus dados reais.
+Consulte [funcionalidades, limites e testes](frontend/README.md).
 
 ## Banco existente e migracao monetaria
 
